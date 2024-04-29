@@ -6,19 +6,22 @@ from time import sleep
 from PIL import Image
 
 def resize_images(dir, max_size):
+    num = 0
     for filename in os.listdir(dir): # Looping through directory
+        num+=1
         f = os.path.join(dir, filename) # Finding path of file
         if os.path.isfile(f): # Checks if it is a file
             image = Image.open(f) # Opens image
             new_image = image.resize((max_size, max_size)) # Resizing Image
             os.remove(f) # Deleting old image
-            new_image.save(f'{dir}{os.sep}{filename}') # Saving new Image
+            new_image.save(f'{dir}{os.sep}{num}') # Saving new Image
             
 # Simplified Download Function
 def download_images(urls, dest):
     for index in range(len(urls)):
+        print(f'Attempting to download URL {urls[index]}')
         download_url(urls[index], dest, show_progress=False)
-        print(f'Downloaded URL: {index}')
+        print(f'Downloaded URL {index}: {urls[index]}')
 
 # Defining function to save pics in respective folders
 def load_images():
@@ -31,13 +34,13 @@ def load_images():
         print(dest)
         dest.mkdir(exist_ok=True, parents=True)
 
-        download_images(search_images(f'{o} photo png', max_images=7), dest=dest)
+        download_images(search_images(f'{o} photo with background', max_images=7), dest=dest)
         print('Pausing')
         sleep(10)  # Pause between searches to avoid over-loading server
-        download_images(search_images(f'{o} sun photo png', max_images=7), dest=dest)
+        download_images(search_images(f'{o} sun photo ', max_images=7), dest=dest)
         print('Pausing')
         sleep(10)
-        download_images(search_images(f'{o} shade photo png', max_images=7), dest=dest)
+        download_images(search_images(f'{o} shade photo ', max_images=7), dest=dest)
         print('Finished Downloading Images. Resizing')
         resize_images(path/o, max_size=400)
 
