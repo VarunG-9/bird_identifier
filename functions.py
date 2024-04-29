@@ -21,7 +21,6 @@ def download_url(url, dest=None, filename=None, timeout=None, show_progress=True
 def download_images(urls, dest):
     for index in range(len(urls)):
         print(f'Attempting to download URL {urls[index]}')
-        download_url(urls[index], dest, show_progress=False, filename=f'{index}')
         try:
             download_url(urls[index], dest, show_progress=False, filename=f'{index}')
         except:
