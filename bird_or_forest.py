@@ -37,9 +37,15 @@ def resize_images(dir, max_size):
 
 
 # Defining function to save pics in respective folders
-def load_images():
+def load_images(max_images=7, folder_name='data', regenerate=False):
+    """ Loads images into the folder 'folder_name' with 'max_images' images per query (there are 3 queries)
+    """ 
+
     searches = 'forest','bird'
-    path = Path('data')
+    path = Path(folder_name)
+
+    if regenerate:
+        os.remove(path)
 
     for o in searches:
         # Define destination
@@ -47,16 +53,15 @@ def load_images():
         print(dest)
         dest.mkdir(exist_ok=True, parents=True)
 
-        download_images(search_images(f'{o} photo with background direct link', max_images=7), dest=dest)
+        download_images(search_images(f'{o} photo with background direct link', max_images=max_images), dest=dest)
         print('Pausing')
         sleep(10)  # Pause between searches to avoid over-loading server
-        download_images(search_images(f'{o} sun photo direct link ', max_images=7), dest=dest)
+        download_images(search_images(f'{o} sun photo direct link ', max_images=max_images), dest=dest)
         print('Pausing')
         sleep(10)
-        download_images(search_images(f'{o} shade photo direct link', max_images=7), dest=dest)
+        download_images(search_images(f'{o} shade photo direct link', max_images=max_images), dest=dest)
         print('Finished Downloading Images. Resizing')
         resize_images(path/o, max_size=400)
 
 
-load_images()
 
