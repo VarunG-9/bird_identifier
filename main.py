@@ -74,6 +74,9 @@ def load_images(max_images=30, folder_name='data'):
         resize_images(path/o, max_size=400)
 
 def main():
+    print("Loading Images")
+    
+    load_images()
     path = Path('data')
 
     dls = DataBlock(
