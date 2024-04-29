@@ -2,3 +2,4 @@ data
 _pycache_
 *.pyc 
 notebook.ipynb
+Model.pkl
