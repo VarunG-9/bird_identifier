@@ -7,13 +7,13 @@ from PIL import Image
 from urllib.parse import urlparse
 from functions import *
 from fastai.vision.all import *
-
-load_images()
-path = 'data'
+from pathlib import Path
+# load_images()
+path = Path('data')
 
 dls = DataBlock(
     blocks=(ImageBlock, CategoryBlock),
-    get_items=get_image_files(path),
+    get_items=get_image_files,
     splitter=RandomSplitter(valid_pct=0.2,seed=None),
     get_y=parent_label,
     item_tfms=[Resize(192, method='squish')]
