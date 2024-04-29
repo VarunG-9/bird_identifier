@@ -5,18 +5,6 @@ from fastdownload import download_url
 from time import sleep
 from PIL import Image
 from urllib.parse import urlparse
-
-
-def download_url(url, dest=None, filename=None, timeout=None, show_progress=True):
-    "Download `url` to `dest` with optional filename and show progress"
-    if filename is None:
-        filename = os.path.basename(urlparse(url).path)
-    if dest is None:
-        dest = filename
-    else:
-        dest = str(dest) + str(os.sep) + list(os.path.basename(urlparse(url).path))[0] + list(os.path.basename(urlparse(url).path))[1] +  os.path.basename(urlparse(url).path[-5:])
-    return urlsave(url, dest, None, timeout=timeout)
-
 # Simplified Download Function
 def download_images(urls, dest):
     for index in range(len(urls)):
@@ -34,12 +22,18 @@ def resize_images(dir, max_size):
     for filename in os.listdir(dir): # Looping through directory
         num+=1
         f = os.path.join(dir, filename) # Finding path of file
-        if os.path.isfile(f): # Checks if it is a file
-            image = Image.open(f) # Opens image
-            new_image = image.resize((max_size, max_size)) # Resizing Image
-            os.remove(f) # Deleting old image
-            new_image.save(f'{dir}{os.sep}{num}{filename[-5:]}') # Saving new Image
-            
+        if os.path.isfile(f) and filename.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):
+            try:
+                image = Image.open(f) # Checks if it is a file
+                new_image = image.resize((max_size, max_size)) # Resizing Image
+                os.remove(f) # Deleting old image
+                print(f'Resizing: {dir}{os.sep}{filename}')
+                new_image.save(f'{dir}{os.sep}{filename}') # Saving new Image
+            except IOError:
+                os.remove(f)
+                print(f"Image was removed as it was invalid. {filename}")
+        else:
+            os.remove(f)
 
 
 # Defining function to save pics in respective folders
