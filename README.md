@@ -1,3 +1,5 @@
+This program can identify whether a picture is of a bird or not. It was trained with only 2 queries. 'bird' and 'forest'.
+
 This is my implementation of the 'Is it a bird?' project on Fast.ai's introductory lecture, as some of the code in the original jupyter notebook was outdated (especially for loading data.)
 
 Usage:
